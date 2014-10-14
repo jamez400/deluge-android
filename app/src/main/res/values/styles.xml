@@ -1,0 +1,36 @@
+<resources>
+
+    <!-- Base application theme. -->
+
+    <style name="ProgressButton.1">
+        <!-- Default !-->
+        <item name="shadowDrawable">@drawable/transparent</item>
+        <!-- <item name="innerSize">?android:attr/listPreferredItemHeight</item> !-->
+        <item name="innerSize">44dp</item>
+        <item name="pinnedDrawable">@drawable/ic_action_collections_view_as_list</item>
+        <item name="unpinnedDrawable">@drawable/ic_action_collections_view_as_list</item>
+    </style>
+
+    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse"><!-- Widget.Holo.Light.ActionBar.Solid  -->
+<!--
+        <item name="android:titleTextStyle">@android:style/TextAppearance.Holo.Widget.ActionBar.Title</item>
+        <item name="android:subtitleTextStyle">@android:style/TextAppearance.Holo.Widget.ActionBar.Subtitle</item>
+
+        <item name="android:divider">?android:attr/dividerVertical</item>
+        <item name="android:progressBarStyle">@android:style/Widget.Holo.Light.ProgressBar.Horizontal</item>
+        <item name="android:indeterminateProgressStyle">@android:style/Widget.Holo.Light.ProgressBar</item>
+        <item name="android:progressBarPadding">32dip</item>
+        <item name="android:itemPadding">8dip</item>
+-->
+        <item name="android:background">@color/deluge_actionbar_background</item>
+        <item name="android:backgroundStacked">@color/deluge_actionbar_background</item>
+        <item name="android:backgroundSplit">@color/deluge_actionbar_background</item>
+    </style>
+
+    <style name="AppTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/selected_background</item>
+    </style>
+
+</resources>

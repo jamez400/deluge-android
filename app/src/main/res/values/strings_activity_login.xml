@@ -1,0 +1,12 @@
+<resources>
+    
+    <!-- Strings related to login -->
+    <string name="prompt_name">Name (optional)</string>
+    <string name="prompt_hostname">Server Address</string>
+    <string name="prompt_username">Username</string>
+    <string name="prompt_password">Password</string>
+
+    <string name="action_connect">Connect</string>
+
+    <string name="error_field_required">Required field</string>
+</resources>

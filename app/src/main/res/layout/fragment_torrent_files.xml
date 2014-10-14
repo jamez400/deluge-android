@@ -1,0 +1,16 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="se.dimovski.android.delugeremote.fragments.TorrentFilesFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/file_selection"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:id="@+id/placeholder_id"
+        android:gravity="center"/>
+
+</FrameLayout>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2006 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:padding="6dp"
+    android:background="?android:attr/activatedBackgroundIndicator" >
+
+
+    <com.f2prateek.progressbutton.ProgressButton
+        android:id="@+id/icon"
+        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+
+        style="@style/ProgressButton.1"
+        android:layout_marginRight="6dip"/>
+    <!--
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="6dip"
+        android:contentDescription="TODO"
+        android:src="@drawable/ic_launcher" />
+-->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/time_icon"
+        android:src="@drawable/ic_time_icon"
+        android:layout_toRightOf="@+id/icon"
+        android:layout_below="@+id/torrent_name"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="-8dp"
+        android:layout_marginLeft="-8dp"/>
+
+    <TextView
+        android:id="@+id/torrent_eta"
+        android:layout_width="55dp"
+        android:layout_height="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="false"
+        android:text="-1 h"
+        android:textSize="12sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:layout_alignParentLeft="false"
+        android:layout_toRightOf="@+id/time_icon"
+        android:gravity="center_vertical"/>
+
+    <TextView
+        android:id="@+id/torrent_name"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/torrent_eta"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_toRightOf="@id/icon"
+        android:text="Torrent Name"
+        android:textSize="14sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentLeft="false"
+        android:gravity="center_vertical"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/file_size"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="false"
+        android:layout_toRightOf="@+id/torrent_eta"
+        android:text="-1 bytes"
+        android:textSize="12sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:layout_alignParentLeft="false"
+        android:gravity="center_vertical|right"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/peers_icon"
+        android:src="@drawable/ic_peers"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="-8dp"
+        android:layout_marginLeft="-8dp"
+        android:layout_toLeftOf="@+id/peers"
+        android:layout_below="@+id/torrent_name"/>
+
+    <TextView
+        android:id="@+id/peers"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="false"
+        android:text="-1"
+        android:textSize="12sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:layout_alignParentLeft="false"
+        android:layout_toLeftOf="@+id/rate_icon"
+        android:gravity="center_vertical"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="5dp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rate_icon"
+        android:src="@drawable/ic_traffic"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="-8dp"
+        android:layout_marginLeft="-8dp"
+        android:layout_toLeftOf="@+id/data_rate"
+        android:layout_below="@+id/torrent_name"/>
+
+    <TextView
+        android:id="@+id/data_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="-1 KB/s"
+        android:textSize="12sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:layout_alignParentLeft="false"
+        android:gravity="center_vertical|right"/>
+
+
+</RelativeLayout>

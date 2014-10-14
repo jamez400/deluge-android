@@ -1,0 +1,55 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="se.dimovski.android.delugeremote.activities.AddTorrentOld$PlaceholderFragment">
+
+    <ScrollView
+        android:id="@+id/add_torrent_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="false">
+
+        <LinearLayout
+            android:id="@+id/add_torrent_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5pt">
+
+
+            <TextView
+                android:id="@+id/filename"
+                android:text="@string/title_activity_add_torrent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@android:style/Widget.EditText"
+                android:textSize="14sp"/>
+
+            <EditText
+                android:id="@+id/download_path"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Download Folder"
+                android:inputType="textUri"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textSize="14sp"/>
+
+            <Button
+                android:id="@+id/add_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Add to server"
+                android:textStyle="bold"/>
+
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

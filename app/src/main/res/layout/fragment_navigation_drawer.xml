@@ -1,0 +1,88 @@
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:id="@+id/server_selection_header"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/navigation_drawer_item_height"
+        android:background="#FF333333" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="Current Server"
+            android:id="@+id/server_header_text"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textColor="#FFCCCCCC"
+            android:layout_toLeftOf="@+id/server_header_icon"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="false"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/server_header_icon"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentTop="false"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_down"
+            android:layout_margin="17dp"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:visibility="gone"
+        android:background="#FF444444"
+        android:id="@+id/servers_layout"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <ListView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:choiceMode="singleChoice"
+            android:clickable="true"
+
+            android:headerDividersEnabled="false"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"
+            android:id="@+id/servers"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/navigation_drawer_item_height"
+            android:text="Add Server"
+            android:id="@+id/server_add_server"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textColor="#FFCCCCCC"/>
+    </LinearLayout>
+
+    <ListView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:choiceMode="singleChoice"
+        android:divider="#80323232"
+        android:dividerHeight="1dp"
+        android:background="#fff3f3f3"
+        tools:context="se.dimovski.android.delugeremote.fragments.NavigationDrawerFragment"
+        android:id="@+id/filters"/>
+
+
+</LinearLayout>

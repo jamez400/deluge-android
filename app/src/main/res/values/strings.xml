@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Deluge Client</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="title_section1">Downloads</string>
+    <string name="title_section2">Active</string>
+    <string name="title_section3">All</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+
+    <string name="action_order_by">Order By</string>
+    <string name="action_search">Search</string>
+
+    <string name="action_pause_resume">Pause/Resume</string>
+    <string name="action_remove">Remove</string>
+    <string name="action_clear_selection">Remove</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_server_settings">Servers</string>
+    <string name="file_selection">File selection not implemented</string>
+    <string name="title_activity_add_torrent">Add Torrent</string>
+
+    <string name="hello_world">Hello world!</string>
+
+</resources>
