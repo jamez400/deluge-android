@@ -31,12 +31,14 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import deluge.api.DelugeRPCCallback;
-import deluge.message.Request;
-import deluge.message.Response;
-import deluge.net.TorrentField;
-import deluge.rpc.Deluge;
-import deluge.rpc.RequestFactory;
+import deluge.api.DelugeFuture;
+import deluge.api.ResponseCallback;
+import deluge.api.response.IntegerResponse;
+import deluge.api.response.Response;
+import deluge.api.response.TorrentsStatusResponse;
+import deluge.impl.DelugeClient;
+import deluge.impl.DelugeSession;
+import deluge.impl.net.TorrentField;
 import se.dimovski.android.delugeremote.DelugeMethods;
 import se.dimovski.android.delugeremote.ProgressUpdater;
 import se.dimovski.android.delugeremote.R;
@@ -66,14 +68,15 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
     PendingIntent pi;
     BroadcastReceiver br;
 
-    private DelugeRPCCallback mUpdateTorrentDetailsCallback = new DelugeRPCCallback() {
+    private DelugeFuture<TorrentsStatusResponse> mUpdateTorrentDetailsCallback = new DelugeFuture<TorrentsStatusResponse>() {
         @Override
-        public void onResponse(long l, Response response)
+        public void onResponse(TorrentsStatusResponse response)
         {
-            mTorrentListFragment.updateTorrentInfo(response.getTorrentInfo());
+            mTorrentListFragment.updateTorrentInfo(response.getReturnValue());
             invalidateOptionsMenu();
         }
     };
+
 
     @Override
     public void onTorrentClicked(String torrentId)
@@ -85,7 +88,7 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
     @Override
     public boolean onLogin(String name, String host, String username, String password) throws ConnectionFailedException, InvalidCredentialsException
     {
-        Deluge deluge = DelugeMethods.connect(host, username, password);
+        DelugeSession deluge = DelugeMethods.connect(host, username, password);
 
         Server server = new Server(name, host, username, password);
         settings.saveServerInfo(server);
@@ -113,13 +116,12 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
     {
         Log.d("deluge", "Initial GET");
 
-        Request req = RequestFactory.getTorrentsStatus(null, new TorrentField[] { TorrentField.PAUSED });
-        DelugeMethods.getCurrentHost().sendAsync(req, new DelugeRPCCallback()
-        {
+        DelugeFuture<TorrentsStatusResponse> req = DelugeMethods.getCurrentHost().getTorrentsStatus(null, new TorrentField[] { TorrentField.PAUSED });
+        req.then(new DelugeFuture<TorrentsStatusResponse>() {
             @Override
-            public void onResponse(long l, Response response)
+            public void onResponse(TorrentsStatusResponse response)
             {
-                Set<String> torrentIds = response.getTorrentInfo().keySet();
+                Set<String> torrentIds = response.getReturnValue().keySet();
                 Log.d("deluge", "Total number of torrents: " + torrentIds.size());
                 loadTorrentDetails(torrentIds);
             }
@@ -134,24 +136,14 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
         mProgressUpdater.start();
 
         pollDownloads();
-        setupPollingAlarm(500);
+        setupPollingAlarm(250);
     }
 
-    private Future<Response> doRequest(String[] torrentIds, DelugeRPCCallback cb)
+    private void doRequest(String[] torrentIds)
     {
         Map<Object, Object> filter = new HashMap<Object, Object>();
         filter.put("id", torrentIds);
-        Request req = RequestFactory.getTorrentsStatus(filter, TorrentInfo.FIELDS);
-        if(cb != null)
-        {
-            DelugeMethods.getCurrentHost().sendAsync(req, cb);
-        }
-        else
-        {
-            return DelugeMethods.getCurrentHost().send(req);
-        }
-
-        return null;
+        DelugeMethods.getCurrentHost().getTorrentsStatus(filter, TorrentInfo.FIELDS).then(mUpdateTorrentDetailsCallback);
     }
 
     private void pollTorrents()
@@ -162,28 +154,30 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
             ids.add(torrentId);
             if(ids.size() >= 25)
             {
-                doRequest(ids.toArray(new String[0]), mUpdateTorrentDetailsCallback);
+                doRequest(ids.toArray(new String[0]));
                 ids.clear();
             }
         }
         if(!ids.isEmpty())
         {
-            doRequest(ids.toArray(new String[0]), mUpdateTorrentDetailsCallback);
+            doRequest(ids.toArray(new String[0]));
         }
     }
 
     private void pollDownloads()
     {
         List<TorrentInfo> downloading = mTorrentListFragment.getListByFilter(Filters.notFinished());
+        downloading.addAll(mTorrentListFragment.getListByVisibility());
+
         List<String> ids = new ArrayList<String>();
         for(TorrentInfo torrent : downloading)
         {
             ids.add(torrent.id);
         }
-        doRequest(ids.toArray(new String[0]), mUpdateTorrentDetailsCallback);
+        doRequest(ids.toArray(new String[0]));
 
-        String[] refreshTorrents = mTorrentListFragment.getTorrentIdsFromQueue(15).toArray(new String[0]);
-        doRequest(refreshTorrents, mUpdateTorrentDetailsCallback);
+        String[] refreshTorrents = mTorrentListFragment.getTorrentIdsFromQueue(10).toArray(new String[0]);
+        doRequest(refreshTorrents);
     }
 
     /**
@@ -218,7 +212,7 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
             @Override
             public void onComplete()
             {
-                setupPollingAlarm(5000);
+                setupPollingAlarm(1000);
             }
         };
 
@@ -406,20 +400,21 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
 
         if(id == R.id.action_pause_resume)
         {
-            String[] torrents = selected.toArray(new String[0]);
-            Future<Response> resp; // TODO: update paused status on response
+            List<String> torrents = new ArrayList<String>();
+            torrents.addAll(selected);
+            DelugeFuture<IntegerResponse> resp; // TODO: update paused status on response
             if(isAnySelectedNotPaused())
             {
-                resp = DelugeMethods.getCurrentHost().pause_torrent(torrents);
+                resp = DelugeMethods.getCurrentHost().pauseTorrent(torrents);
             }
             else
             {
-                resp = DelugeMethods.getCurrentHost().resume_torrent(torrents);
+                resp = DelugeMethods.getCurrentHost().resumeTorrent(torrents);
             }
             try
             {
                 Response res = resp.get(3, TimeUnit.SECONDS);
-                doRequest(torrents, mUpdateTorrentDetailsCallback);
+                doRequest(torrents.toArray(new String[0]));
             }
             catch (Exception e)
             {

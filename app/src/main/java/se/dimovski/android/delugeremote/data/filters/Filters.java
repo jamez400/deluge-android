@@ -1,6 +1,6 @@
 package se.dimovski.android.delugeremote.data.filters;
 
-import deluge.net.TorrentField;
+import deluge.impl.net.TorrentField;
 import se.dimovski.android.delugeremote.data.TorrentInfo;
 
 /**

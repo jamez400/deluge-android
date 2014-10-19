@@ -20,8 +20,9 @@ import java.util.Map;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import deluge.message.Response;
-import deluge.rpc.Deluge;
+import deluge.api.DelugeFuture;
+import deluge.api.response.IntegerResponse;
+import deluge.impl.DelugeSession;
 import se.dimovski.android.delugeremote.DelugeMethods;
 import se.dimovski.android.delugeremote.R;
 import se.dimovski.android.delugeremote.Server;
@@ -39,7 +40,7 @@ import se.dimovski.android.delugeremote.adapters.FragmentPageAdapter;
 public class AddTorrent extends Activity implements ServerConnectDialog.LoginCallbacks, AddTorrentFragment.AddTorrentCallbacks, TorrentFilesFragment.TorrentFilesCallbacks
 {
 
-    private Deluge deluge = null;
+    private DelugeSession deluge = null;
 
     FragmentPageAdapter mSwipeAdapter;
     ViewPager mViewPager;
@@ -115,7 +116,7 @@ public class AddTorrent extends Activity implements ServerConnectDialog.LoginCal
         try
         {
             File torrent = new File(filepath);
-            Future<Response> resp = deluge.addTorrentFile(torrent.getName(), fileToEncodedString(torrent), options);
+            DelugeFuture<IntegerResponse> resp = deluge.addTorrentFile(torrent.getName(), fileToEncodedString(torrent), options);
             resp.get(3, TimeUnit.SECONDS);
             this.finish();
         }

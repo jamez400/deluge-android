@@ -13,6 +13,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -37,7 +38,7 @@ import se.dimovski.android.delugeremote.data.filters.Predicate;
  * Activities containing this fragment MUST implement the {@link TorrentListCallbacks}
  * interface.
  */
-public class TorrentListFragment extends Fragment implements AbsListView.OnItemClickListener
+public class TorrentListFragment extends Fragment implements AbsListView.OnItemClickListener, AbsListView.OnScrollListener
 {
     private TorrentListCallbacks mListener;
     private Set<String> mSelectedTorrents = new HashSet<String>();
@@ -92,6 +93,7 @@ public class TorrentListFragment extends Fragment implements AbsListView.OnItemC
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
+        mListView.setOnScrollListener(this);
 
         return view;
     }
@@ -163,6 +165,19 @@ public class TorrentListFragment extends Fragment implements AbsListView.OnItemC
         return Collections.EMPTY_LIST;
     }
 
+    public List<TorrentInfo> getListByVisibility()
+    {
+        int first = mListView.getFirstVisiblePosition();
+        int last = mListView.getLastVisiblePosition();
+
+        List<TorrentInfo> visibleTorrents = new ArrayList<TorrentInfo>();
+        for(int i=first; i<=last; i++)
+        {
+            visibleTorrents.add((TorrentInfo) mListView.getItemAtPosition(i));
+        }
+        return visibleTorrents;
+    }
+
     public void filter(Predicate<TorrentInfo> predicate)
     {
         if(mAdapter != null)
@@ -221,6 +236,17 @@ public class TorrentListFragment extends Fragment implements AbsListView.OnItemC
     public TorrentInfo getTorrent(String torrentId)
     {
         return mAdapter.getItem(torrentId);
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState)
+    {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+    {
     }
 
     /**

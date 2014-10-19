@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
-import deluge.net.TorrentField;
+import deluge.impl.net.TorrentField;
 import se.dimovski.android.delugeremote.R;
 import se.dimovski.android.delugeremote.data.TorrentInfo;
 import se.dimovski.android.delugeremote.data.filters.Filters;

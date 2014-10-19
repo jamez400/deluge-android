@@ -2,7 +2,8 @@ package se.dimovski.android.delugeremote.data;
 
 import java.util.Map;
 
-import deluge.net.TorrentField;
+import deluge.impl.net.TorrentField;
+
 
 /**
  * Created by nihilist on 2014-09-27.

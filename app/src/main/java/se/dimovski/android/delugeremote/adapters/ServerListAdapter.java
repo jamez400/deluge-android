@@ -22,7 +22,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
-import deluge.net.TorrentField;
 import se.dimovski.android.delugeremote.R;
 import se.dimovski.android.delugeremote.Server;
 import se.dimovski.android.delugeremote.Settings;

@@ -1,5 +1,7 @@
 package se.dimovski.android.delugeremote.exceptions;
 
+import deluge.api.DelugeException;
+
 /**
  * Created by nihilist on 2014-09-28.
  */
@@ -10,39 +12,27 @@ public class InvalidCredentialsException extends Exception {
         PasswordIncorrect
     }
 
-    private ErrorType errorType;
-    private String errorMessage;
+    private final DelugeException mCause;
 
-    public InvalidCredentialsException(deluge.message.Error error)
+    public InvalidCredentialsException(DelugeException cause)
     {
-        errorMessage = error.exceptionMsg;
-
-        if(error.exceptionMsg.contains("Username"))
-        {
-            errorType = ErrorType.UsernameNotFound;
-        }
-        else
-        {
-            errorType = ErrorType.PasswordIncorrect;
-        }
+        mCause = cause;
     }
 
+    // TODO: fix differentiating
     public boolean incorrectUsername()
     {
-        return errorType == ErrorType.UsernameNotFound;
-    }
-    public boolean incorrectPassword()
-    {
-        return errorType == ErrorType.PasswordIncorrect;
+        return ErrorType.UsernameNotFound == ErrorType.UsernameNotFound;
     }
 
-    public ErrorType getErrorType()
+    // TODO: fix differentiating
+    public boolean incorrectPassword()
     {
-        return errorType;
+        return ErrorType.PasswordIncorrect == ErrorType.PasswordIncorrect;
     }
 
     public String getMessage()
     {
-        return errorMessage;
+        return mCause.getMessage();
     }
 }

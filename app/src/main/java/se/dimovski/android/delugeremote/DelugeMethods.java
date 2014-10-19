@@ -4,8 +4,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import deluge.message.Response;
-import deluge.rpc.Deluge;
+import deluge.api.response.Response;
+import deluge.impl.DelugeClient;
+import deluge.impl.DelugeSession;
 import se.dimovski.android.delugeremote.exceptions.ConnectionFailedException;
 import se.dimovski.android.delugeremote.exceptions.InvalidCredentialsException;
 
@@ -14,15 +15,15 @@ import se.dimovski.android.delugeremote.exceptions.InvalidCredentialsException;
  */
 public class DelugeMethods
 {
-    private static Deluge mCurrentConnection = null;
+    private static DelugeSession mCurrentConnection = null;
     private static String mHostName = null;
 
-    public static Deluge getCurrentHost()
+    public static DelugeSession getCurrentHost()
     {
         return mCurrentConnection;
     }
 
-    public static Deluge connect(String host, String username, String password) throws ConnectionFailedException, InvalidCredentialsException
+    public static DelugeSession connect(String host, String username, String password) throws ConnectionFailedException, InvalidCredentialsException
     {
         if(mHostName != null && mHostName.equals(host))
         {
@@ -31,7 +32,7 @@ public class DelugeMethods
 
         try
         {
-            mCurrentConnection = Deluge.connect(host);
+            mCurrentConnection = DelugeClient.getSession(host);
         }
         catch (Exception e)
         {
@@ -41,11 +42,7 @@ public class DelugeMethods
 
         try
         {
-            Response resp = mCurrentConnection.login(username, password).get(5, TimeUnit.SECONDS);
-            if(resp.hasError())
-            {
-                throw new InvalidCredentialsException(resp.getError());
-            }
+            mCurrentConnection.login(username, password).get(5, TimeUnit.SECONDS);
         }
         catch (InterruptedException e)
         {
